@@ -3,13 +3,14 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "../screens/GalleryScreen";
-import GalleryScreen from "../screens/GalleryScreen";
+import GalleryScreen from "../screens/GalleryScreen/index";
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
+      initialRouteName="Gallery"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -25,8 +26,8 @@ const BottomTabNavigator = () => {
         },
         tabBarActiveTintColor: "white",
         tabBarInactiveTintColor: "grey",
-        tabBarStyle:{
-            backgroundColor:'#181818'
+        tabBarStyle: {
+          backgroundColor: "#181818",
         },
         headerShown: false,
       })}

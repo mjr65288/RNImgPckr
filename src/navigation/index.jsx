@@ -7,7 +7,7 @@ import GalleryScreen from "../screens/GalleryScreen";
 
 const Tab = createBottomTabNavigator();
 
-const BottomTabNavigator  = () => {
+const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -23,8 +23,12 @@ const BottomTabNavigator  = () => {
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: "tomato",
-        tabBarInactiveTintColor: "gray",
+        tabBarActiveTintColor: "white",
+        tabBarInactiveTintColor: "grey",
+        tabBarStyle:{
+            backgroundColor:'#181818'
+        },
+        headerShown: false,
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />

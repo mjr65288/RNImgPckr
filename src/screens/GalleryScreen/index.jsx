@@ -4,24 +4,64 @@ import {
   StyleSheet,
   Image,
   Dimensions,
+  TouchableOpacity,
+  Text,
+  ScrollView,
+  View,
 } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import images from "./imageList";
+import * as MediaLibrary from "expo-media-library";
 
 const GalleryScreen = () => {
+  const [imageUri, setImageUri] = useState(null);
+
+  const mediaLibraryAsync = async () => {
+    const status = await MediaLibrary.requestPermissionsAsync();
+
+    if (status.granted === false) {
+      alert("Permission to access Gallery is required!");
+      return;
+    }
+
+    const albunName = "Camera";
+    const getPhotos = await MediaLibrary.getAlbumAsync(albunName);
+
+    const media = await MediaLibrary.getAssetsAsync({
+      mediaType: ["photo", "video"],
+      first: 20,
+      album: getPhotos,
+    });
+
+    const i = await MediaLibrary.getAssetInfoAsync(media.assets[0]);
+
+    console.log(i.localUri);
+    setImageUri({ localUri: i.localUri });
+  };
+
+  // useEffect(() => {
+  //   mediaLibraryAsync();
+  // }, [imageUri]);
+
+  //const v = imageUri !== null;
+
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={images}
-        renderItem={({ item, index }) => (
-          <Image key={index} source={item.image} style={styles.img} />
-        )}
-        showsVerticalScrollIndicator={false}
-        snapToAlignment={"start"}
-        decelerationRate={"fast"}
-        snapToInterval={Dimensions.get("window").height}
-      />
-    </SafeAreaView>
+    <View>
+      {imageUri !== null ?
+        (
+        <ScrollView>
+          {/* <Text style={styles.buttonText}>{imageUri.localUri}</Text> */}
+          <Image source={{ uri: imageUri.localUri }} style={styles.thumbnail} />
+        </ScrollView>
+        ) 
+        :
+        (
+        <TouchableOpacity onPress={mediaLibraryAsync} style={styles.button}>
+          <Text style={styles.buttonText}>Load Album</Text>
+        </TouchableOpacity>
+        )
+      }
+    </View>
   );
 };
 
@@ -32,10 +72,14 @@ const styles = StyleSheet.create({
     borderRadius: 1,
   },
   button: {
-    alignItems: "center",
-    backgroundColor: "#DDDDDD",
-    padding: 10,
-    marginBottom: 10,
+    backgroundColor: "blue",
+    padding: 20,
+    borderRadius: 5,
+  },
+  thumbnail: {
+    width: 500,
+    height: 500,
+    resizeMode: "contain",
   },
 });
 

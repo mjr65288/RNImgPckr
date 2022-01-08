@@ -50,7 +50,6 @@ const GalleryScreen = () => {
       {imageUri !== null ?
         (
         <ScrollView>
-          {/* <Text style={styles.buttonText}>{imageUri.localUri}</Text> */}
           <Image source={{ uri: imageUri.localUri }} style={styles.thumbnail} />
         </ScrollView>
         ) 

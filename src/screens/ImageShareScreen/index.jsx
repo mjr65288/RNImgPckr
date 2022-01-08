@@ -8,7 +8,7 @@ const ImageShareScreen = () => {
 
   const openImagePickerAsync = async () => {
     const permissionResult =
-      await ImagePicker.ImagePicker.requestMediaLibraryPermissionsAsync();
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (permissionResult.granted === false) {
       alert("Permission to access camera roll is required!");
